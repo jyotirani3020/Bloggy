@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block header %}
+<header class="masthead" style="background-image: url('static/img/home-bg.jpg')">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="site-heading">
+            <h1>Bloggy</h1>
+            <span class="subheading">Start writting now!!!</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+{% endblock %}
+
+
+{% block content %}
+
+    <div class= 'contaniner'>
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+              <div class="post-preview">
+        {% for post in blog_posts.items %}
+        <div class='card'>
+            <div class='card-body'>
+                <h2 class="post-title"><a class="card-title" href="{{url_for('blog_posts.blog_post',blog_post_id=post.id)}}">{{post.title}}</a></h2>
+                <a  class="post-meta" href="{{url_for('users.user_post',username=post.author.username)}}">Written By: {{post.author.username}}</a>
+                <p  class="post-meta">Published on: {{post.date.strftime('%Y-%m-%d')}}</p>
+                <a href="{{url_for('blog_posts.blog_post',blog_post_id=post.id)}}" class='btn btn-primary'>Read Blog Post</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    </div>
+    </div>
+    </div>
+
+
+    <nav aria-label="Page Navigation example">
+        <ul class='pagination justify-content-center'>
+            {% for page_num in blog_posts.iter_pages(left_edge=1,right_edge=1,left_current=1,right_current=2) %}
+                {% if blog_posts.page == page_num %}
+                    <li class="page-item disabled">
+                        <a class='page-link' href="{{url_for('core.index', page=page_num)}}"></a>
+                    </li>
+                {% else %}
+                    <li class="page-item">
+                        <a class='page-link' href="{{url_for('core.index', page=page_num)}}"></a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+
+        </ul>
+
+    </nav>
+
+{% endblock %}
